@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>For My Love ❤️</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI, sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background:radial-gradient(circle at top,#ffb3cc,#ff4f8b,#6b0028);
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* CINEMATIC OVERLAY */
+.overlay{
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.25);
+backdrop-filter:blur(3px);
+z-index:0;
+}
+
+/* GLOW */
+.glow{
+position:absolute;
+width:700px;
+height:700px;
+background:rgba(255,255,255,.1);
+border-radius:50%;
+filter:blur(140px);
+animation:pulse 6s infinite alternate;
+}
+
+@keyframes pulse{
+to{transform:scale(1.3);}
+}
+
+/* OPEN TEXT */
+.open-text{
+position:absolute;
+top:40px;
+color:white;
+font-size:24px;
+letter-spacing:3px;
+text-shadow:0 0 15px pink;
+z-index:2;
+}
+
+/* ENVELOPE */
+.envelope{
+width:360px;
+height:230px;
+background:linear-gradient(135deg,#b8003c,#ff2f75);
+border-radius:20px;
+position:relative;
+cursor:pointer;
+box-shadow:0 30px 50px rgba(0,0,0,.45);
+transition:.4s;
+z-index:2;
+}
+
+.envelope:hover{
+transform:scale(1.05);
+}
+
+.envelope:before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(135deg,#ff5fa2,#ff96c4);
+clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);
+border-radius:20px;
+}
+
+/* LETTER */
+.letter{
+position:absolute;
+left:50%;
+top:45px;
+transform:translateX(-50%);
+width:310px;
+background:white;
+border-radius:18px;
+padding:18px;
+text-align:center;
+display:none;
+animation:letterUp 1s ease forwards;
+box-shadow:0 20px 40px rgba(0,0,0,.3);
+}
+
+@keyframes letterUp{
+from{opacity:0; transform:translate(-50%,100px);}
+to{opacity:1; transform:translate(-50%,0);}
+}
+
+.letter h2{
+color:#e0005c;
+margin-bottom:8px;
+}
+
+.letter p{
+font-size:14px;
+line-height:1.6;
+color:#333;
+}
+
+/* BUTTONS */
+.btn-box{
+margin-top:12px;
+position:relative;
+height:95px;
+}
+
+button{
+padding:12px 24px;
+border:none;
+border-radius:12px;
+font-size:15px;
+cursor:pointer;
+}
+
+#mau{
+background:linear-gradient(135deg,#ff2f75,#ff7db3);
+color:white;
+box-shadow:0 0 18px rgba(255,0,120,.7);
+}
+
+#mau:hover{
+transform:scale(1.08);
+}
+
+#nggak{
+background:#444;
+color:white;
+position:absolute;
+}
+
+/* FINAL SCREEN */
+.final{
+position:absolute;
+inset:0;
+background:linear-gradient(135deg,#ff4f8b,#c4004f);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+animation:fade 1.5s ease forwards;
+z-index:5;
+}
+
+@keyframes fade{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+.final h1{
+font-size:48px;
+color:white;
+text-shadow:0 0 25px pink;
+}
+
+.final p{
+color:white;
+font-size:18px;
+margin-top:10px;
+}
+
+/* HEART RAIN */
+.heart{
+position:fixed;
+top:-20px;
+font-size:18px;
+animation:fall linear forwards;
+pointer-events:none;
+z-index:1;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(360deg);
+opacity:0;
+}
+}
+
+/* SPARKLE */
+.spark{
+position:fixed;
+width:4px;
+height:4px;
+background:white;
+border-radius:50%;
+opacity:.8;
+animation:spark linear forwards;
+z-index:1;
+}
+
+@keyframes spark{
+to{
+transform:translateY(110vh);
+opacity:0;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+<div class="glow"></div>
+
+<div class="open-text">CLICK THE LETTER ❤️</div>
+
+<!-- MUSIC -->
+<audio id="bgm" loop>
+<source src="aboutyou.mp3" type="audio/mp3">
+</audio>
+
+<div class="envelope" id="env">
+
+<div class="letter" id="letter">
+
+<h2>Halo Sayang 💖</h2>
+
+<p>
+Kalau aku boleh jujur...  
+Aku selalu nemuin kamu di setiap lagu ini 🥺  
+<br><br>
+Dan hari ini aku cuma mau satu jawaban...  
+<br><br>
+Maukah kamu jadi Valentine aku?
+</p>
+
+<div class="btn-box">
+<button id="mau">MAU 💕</button>
+<button id="nggak">NGGAK 😝</button>
+</div>
+
+</div>
+</div>
+
+<script>
+
+// PLAY MUSIC + OPEN LETTER
+const env = document.getElementById("env");
+const letter = document.getElementById("letter");
+const music = document.getElementById("bgm");
+
+env.onclick = ()=>{
+letter.style.display="block";
+music.volume = 0.0;
+music.play();
+
+// FADE IN MUSIC
+let vol = 0;
+let fade = setInterval(()=>{
+if(vol < 1){
+vol += 0.05;
+music.volume = vol;
+}else{
+clearInterval(fade);
+}
+},200);
+};
+
+// RUN BUTTON
+const noBtn = document.getElementById("nggak");
+
+noBtn.addEventListener("mouseover",()=>{
+noBtn.style.left = Math.random()*200 + "px";
+noBtn.style.top = Math.random()*70 + "px";
+});
+
+// YES BUTTON
+document.getElementById("mau").onclick = ()=>{
+document.body.innerHTML = `
+<div class="final">
+<h1>YEAYYYY 💖🥰</h1>
+<p>Sekarang kamu resmi jadi Valentine aku 😘</p>
+<p>I’ll always choose you ❤️</p>
+</div>
+`;
+};
+
+// HEART EFFECT
+function heartRain(){
+const h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(Math.random()*3+2)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),5000);
+}
+setInterval(heartRain,230);
+
+// SPARKLE EFFECT
+function sparkle(){
+const s=document.createElement("div");
+s.className="spark";
+s.style.left=Math.random()*100+"vw";
+s.style.animationDuration=(Math.random()*2+1)+"s";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),3000);
+}
+setInterval(sparkle,150);
+
+</script>
+
+</body>
+</html>
